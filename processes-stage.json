@@ -1,0 +1,33 @@
+{
+    "apps": [
+        {
+            "name": "primary",
+            "script": "./bin/www",
+            "merge_logs": true,
+            "max_restarts": 20,
+            "instances": 1,
+            "max_memory_restart": "1200M",
+            "env": {
+                "name" : "stage_primary",
+                "PORT": 3022,
+                "NODE_ENV": "staging",
+                "id": 0
+            }
+        },
+        {
+            "name": "replica",
+            "script": "./bin/www",
+            "merge_logs": true,
+            "max_restarts": 20,
+            "instances": 1,
+            "max_memory_restart": "100M",
+            "env": {
+                "name" : "stage_replica",
+                "PORT": 3022,
+                "NODE_ENV": "staging",
+                "id": 1
+                
+            }
+        }
+    ]
+ }

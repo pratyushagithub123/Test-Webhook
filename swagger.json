@@ -1,0 +1,823 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Memory-net Project",
+      "description": "This is a sample Memory net node Project server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.",
+      "termsOfService": "http://swagger.io/terms/",
+      "contact": {
+        "email": "dev@bitcot.com"
+      },
+      "license": {
+        "name": "Apache 2.0",
+        "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      },
+      "version": "1.0.0"
+    },
+    "externalDocs": {
+      "description": "Find out more about Project",
+      "url": "#"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3022"
+      },
+      {
+        "url": "https://stage-api.memorydata.net/"
+      }
+    ],
+    "tags": [
+      {
+        "name": "Server",
+        "description": "Operations about Server."
+      },
+      {
+        "name": "Part",
+        "description": "Operations about Part."
+      },
+      {
+        "name": "ServerPart",
+        "description": "Operations about Server Part."
+      }
+    ],
+    "paths": {
+        "/server": {
+            "post": {
+              "tags": [
+                "Server"
+              ],
+              "summary": "User can import server by Select CSV file.",
+              "operationId": "addServers",                           
+              "requestBody": {
+                "description": "Server Model",
+                "content": {
+                  "multipart/form-data": {
+                    "schema": {
+                      "type": "object",
+                      "required": [
+                        "file"
+                      ],
+                      "properties": {
+                        "store_name": {
+                          "type": "string",
+                          "description": "Store name pick from here, if not in CSV.",                          
+                          "example": "SuperMicro"
+                        },
+                        "file": {
+                          "type": "string",
+                          "description": "Select File to Uploads CSV",
+                          "format": "binary"  
+                        }
+                      }                                         
+                    }
+                  }
+                }
+              },    
+              
+              "responses": {
+                "200": {
+                  "description": "successful operation"
+                },
+                "400": {
+                  "description": "",
+                  "content": {}
+                }
+              }
+            }
+        },
+        "/server/search": {
+            "get": {
+              "tags": [
+                "Server"
+              ],
+              "summary": "User can search Server.",
+              "operationId": "searchServer", 
+              "parameters": [
+                {
+                    "name": "search",
+                    "in": "query",
+                    "description": "search keywords",
+                    "required": true,
+                    "example": "Lenovo",
+                    "schema": {
+                      "type": "string"
+                    }
+                },
+                {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page no of list",
+                    "required": true,
+                    "example": "1",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "description": "No of records to want.",
+                    "required": true,
+                    "example": "10",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                }
+              ],
+              "responses": {
+                "default": {
+                  "description": "successful operation",
+                  "content": {}
+                }
+              }  
+            }
+        },
+        "/part": {
+            "post": {
+              "tags": [
+                "Part"
+              ],
+              "summary": "User can import part by Select CSV file.",
+              "operationId": "addParts",              
+              "requestBody": {
+                "description": "Add Part Model",
+                "content": {
+                  "multipart/form-data": {
+                    "schema": {
+                      "type": "object",
+                      "required": [
+                        "file"
+                      ],
+                      "properties": {
+                        "store_name": {
+                          "type": "string",
+                          "description": "Store name pick from here, if not in CSV.",                          
+                          "example": "SuperMicro"
+                        },
+                        "file": {
+                          "type": "string",
+                          "description": "Select File to Uploads CSV",
+                          "format": "binary"  
+                        }
+                      }                    
+                    }
+                  }
+                }
+              }, 
+              "responses": {
+                "200": {
+                  "description": "successful operation"   
+                },
+                "400": {
+                  "description": "",
+                  "content": {}
+                }
+              },
+              "x-codegen-request-body-name": "body"
+            }
+        },
+        "/part/search": {
+            "get": {
+              "tags": [
+                "Part"
+              ],
+              "summary": "User can search Parts.",
+              "operationId": "searchParts", 
+              "parameters": [
+                {
+                    "name": "search",
+                    "in": "query",
+                    "description": "search keywords",
+                    "required": true,
+                    "example": "HPE",
+                    "schema": {
+                      "type": "string"
+                    }
+                },
+                {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page no of list",
+                    "required": true,
+                    "example": "1",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "description": "No of records to want.",
+                    "required": true,
+                    "example": "10",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                }
+              ],
+              "responses": {
+                "default": {
+                  "description": "successful operation",
+                  "content": {}
+                }
+              },
+              "deprecated": true   
+            }
+        },       
+        "/part/{id}": {
+          "get": {
+            "tags": [
+              "Part"
+            ],
+            "summary": "User can search Part detail by part ID.",
+            "operationId": "getPartDetail", 
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "Id of the part need for fetch detail.",
+                "required": true,
+                "example": "23",
+                "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            },
+            "deprecated": true   
+          }
+        },
+        "/part/search/{part_number}": {
+          "get": {
+            "tags": [
+              "Part"
+            ],
+            "summary": "User can search Part By Part Number(Group By Part).",
+            "operationId": "searchPartByPartNumber", 
+            "parameters": [
+              {
+                "name": "part_number",
+                "in": "path",
+                "description": "part_number of the part need for search.",
+                "required": true,
+                "example": "A08",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+        },
+        "/serverpart": {
+            "post": {
+              "tags": [
+                "ServerPart"
+              ],
+              "summary": "User can import server parts /part servers by Select CSV file.",
+              "operationId": "addServerPart",              
+              "requestBody": {
+                "description": "Server Part Model",
+                "content": {
+                  "multipart/form-data": {
+                    "schema": {
+                      "type": "object",
+                      "required": [
+                        "file"
+                      ],
+                      "properties": {                        
+                        "file": {
+                          "type": "string",
+                          "description": "Select File to Uploads CSV",
+                          "format": "binary"  
+                        }
+                      }                   
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "successful operation"  
+                },
+                "400": {
+                  "description": "",
+                  "content": {}
+                }
+              }
+            }
+        },
+        "/serverpart/getserverparts/{id}": {
+            "get": {
+              "tags": [
+                "ServerPart"
+              ],
+              "summary": "User can get Server-parts compatibility by server ID.",
+              "operationId": "getServerParts", 
+              "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "description": "Id of the server need for fetch server-parts compatibility.",
+                    "required": true,
+                    "example": "32",
+                    "schema": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page no of list",
+                    "required": true,
+                    "example": "1",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "description": "No of records to want.",
+                    "required": true,
+                    "example": "10",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                }
+              ],
+              "responses": {
+                "default": {
+                  "description": "successful operation",
+                  "content": {}
+                }
+              }  
+            }
+        },
+        "/serverpart/getpartservers/{part_number}/{store_name}/{part_description}": {
+          "get": {
+            "tags": [
+              "ServerPart"
+            ],
+            "summary": "User can get  part-servers compatibility by part number.",
+            "operationId": "getPartServerByPartNumber", 
+            "parameters": [
+              {
+                "name": "part_number",
+                "in": "path",
+                "description": "part_number of the part need for search.",
+                "required": true,
+                "example": "49Y1418",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                "name": "store_name",
+                "in": "path",
+                "description": "Store name of the part need for search.",
+                "required": true,
+                "example": "IBM",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                "name": "part_description",
+                "in": "path",
+                "description": "Part descriptionof the part need for search.",
+                "required": true,
+                "example": "16 GB (Quad-Rank x4) 1.35 V PC3L-8500 CL7 ECC DDR3 1066 MHz LP RDIMM",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+        },      
+        "/serverpart/search": {
+            "get": {
+              "tags": [
+                "ServerPart"
+              ],
+              "summary": "User can search all part with server details.",
+              "operationId": "searchAllPartServer", 
+              "parameters": [
+                {
+                  "name": "search",
+                  "in": "query",
+                  "description": "search keywords",
+                  "required": true,
+                  "example": "HPE",
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                    "name": "page",
+                    "in": "query",
+                    "description": "page no of list",
+                    "required": true,
+                    "example": "1",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "description": "No of records to want.",
+                    "required": true,
+                    "example": "10",
+                    "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                    }
+                }
+              ],
+              "responses": {
+                "default": {
+                  "description": "successful operation",
+                  "content": {}
+                }
+              },
+              "deprecated": true   
+            }
+        },
+        "/normalizeservers/{ABC}": {
+          "get": {
+            "tags": [
+              "NormalizeServers"
+            ],
+            "summary": "User can get  normalize-servers compatibility by ABC.",
+            "operationId": "getNormalizeServerByABC", 
+            "parameters": [
+              {
+                "name": "ABC",
+                "in": "path",
+                "description": "ABC of the normalize_server need for search.",
+                "required": true,
+                "example": "CL2800 Gen10",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+        },
+        "/normalizeservers/fetchserver/": {
+          "get": {
+            "tags": [
+              "NormalizeServers"
+            ],
+            "summary": "User can get  server-parts compatibility by ABC.",
+            "operationId": "getServerPartByABC", 
+            "parameters": [
+              {
+                "name": "A",
+                "in": "query",
+                "description": "A of the normalize_server need for search.",
+                "required": true,
+                "example": "HPE",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                "name": "B",
+                "in": "query",
+                "description": "B of the normalize_server need for search.",
+                "required": true,
+                "example": "PROLIANT",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                "name": "C",
+                "in": "query",
+                "description": "C of the normalize_server need for search.",
+                "required": true,
+                "example": "MICROSERVER GEN10",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+        },
+        "/normalizeservers/fetchspecs": {
+          "post": {
+            "tags": [
+              "NormalizeServers"
+            ],
+            "summary": "User can fetch using specificatoin values",
+            "operationId": "fetchSpecification",                           
+            "requestBody": {
+              "description": "Server_description need for search specification",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "required": [
+                      "Body"
+                    ],
+                    "properties": {
+                      "server_description": {
+                        "type": "string",
+                        "description": "Enter Server descripton here.",                          
+                        "example": ["PowerEdge C4140"]
+                      },
+                      "search_keyword": {
+                        "type": "string",
+                        "description": "Type to search here.",
+                        "example": "DRAM"
+                      }
+                    }                                         
+                  }
+                }
+              }
+            },  
+            "parameters": [
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+      },
+        "/normalizeparts/{parts}": {
+          "get": {
+            "tags": [
+              "NormalizeParts"
+            ],
+            "summary": "User can get  normalize-parts compatibility by part details.",
+            "operationId": "getNormalizePartByPartDetails", 
+            "parameters": [
+              {
+                "name": "parts",
+                "in": "path",
+                "description": "Parts of the normalize_part need for search.",
+                "required": true,
+                "example": "AA075845",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+        },
+        "/normalizeparts/getnormalizepart/{id}": {
+          "get": {
+            "tags": [
+              "NormalizeParts"
+            ],
+            "summary": "User can get  part-servers compatibility by part_id.",
+            "operationId": "getPartServerByPartId", 
+            "parameters": [
+              {
+                "name": "id",
+                "in": "path",
+                "description": "id of the normalize_part need for search.",
+                "required": true,
+                "example": "1",
+                "schema": {
+                    "type": "string"
+                }
+              },
+              {
+                  "name": "page",
+                  "in": "query",
+                  "description": "page no of list",
+                  "required": true,
+                  "example": "1",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              },
+              {
+                  "name": "limit",
+                  "in": "query",
+                  "description": "No of records to want.",
+                  "required": true,
+                  "example": "10",
+                  "schema": {
+                  "type": "integer",
+                  "format": "int64"
+                  }
+              }
+            ],
+            "responses": {
+              "default": {
+                "description": "successful operation",
+                "content": {}
+              }
+            }  
+          }
+        }           
+
+    },
+    "components": {
+      "schemas": { 
+
+        "AddServer": {
+          "type": "object",          
+          "properties": {
+            "store_name": {
+              "type": "string",
+              "example": "SuperMicro"
+            },
+            "file": {
+              "type": "string",
+              "example": "/home/bitcot/Downloads/SuperMicro.csv"
+            }
+          }                
+        }
+      },
+      "securitySchemes": {
+        "authorization": {
+          "type": "apiKey",
+          "description": "<b>How to set Token into Value => Bearer {{Token get from login}} </b>",
+          "name": "Authorization",
+          "in": "header"
+        }
+      }
+    }
+  }
