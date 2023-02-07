@@ -1,4 +1,4 @@
-//// Development. /////
+//// Development. ///////
 
 #DB dev setup
 1. Open PG admin and create an empty db in local called -> memory_development
