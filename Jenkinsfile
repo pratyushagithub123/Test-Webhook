@@ -13,7 +13,7 @@ pipeline {
    string(name: 'SLACK_CHANNEL_2',
  
           description: 'Default Slack channel to send messages to',
-          defaultValue: '#memory-net-node')
+          defaultValue: '#/////memory-net-node')
  
  } // parameters
  
